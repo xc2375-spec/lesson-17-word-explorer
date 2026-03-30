@@ -1,0 +1,720 @@
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>1W Lesson 17 Word Explorer｜蚕的故事</title>
+  <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+  <style>
+    :root{
+      --bg:#f7f6f2;
+      --card:#ffffff;
+      --line:#e8e1d6;
+      --text:#2b2b2b;
+      --muted:#6a6a6a;
+      --accent:#a9671f;
+      --accent-soft:#fbf3e8;
+      --green:#edf7f0;
+      --green-line:#cfe3d3;
+      --blue:#eef4fb;
+      --blue-line:#d3e0f2;
+      --shadow:0 12px 28px rgba(65,48,28,.08);
+    }
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{margin:0;font-family:"PingFang SC","Noto Sans SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text)}
+    button,input,select{font:inherit}
+    a{text-decoration:none;color:inherit}
+    .wrap{max-width:1180px;margin:0 auto;padding:24px 16px 56px}
+    .topbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:16px;color:var(--muted);font-size:14px}
+    .home-link{color:var(--muted)}
+    .hero,.panel,.card{background:var(--card);border:1px solid var(--line);border-radius:18px;box-shadow:var(--shadow)}
+    .hero{padding:22px 22px 18px;margin-bottom:16px}
+    .eyebrow{display:inline-block;background:var(--accent-soft);color:var(--accent);padding:6px 10px;border-radius:999px;font-size:12px;font-weight:700;letter-spacing:.02em}
+    h1{margin:12px 0 8px;font-size:30px;line-height:1.15;color:#8a5316}
+    .lead{margin:0;color:var(--muted);line-height:1.8;max-width:900px}
+    .hero-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:14px;margin-top:16px}
+    .mini{background:#fcfbf8;border:1px solid var(--line);border-radius:16px;padding:14px}
+    .mini h3{margin:0 0 8px;font-size:15px;color:#8a5316}
+    .mini p,.mini li{margin:0;color:var(--muted);line-height:1.75;font-size:14px}
+    .mini ul{padding-left:18px;margin:0}
+    .btn-row{display:flex;gap:8px;flex-wrap:wrap}
+    .btn{border:none;border-radius:12px;padding:10px 14px;cursor:pointer;font-weight:700}
+    .btn.primary{background:var(--accent);color:#fff}
+    .btn.secondary{background:#f2efe8;color:#3b342d;border:1px solid var(--line)}
+    .btn.toggle.active{background:#8a5316;color:#fff}
+    .section-nav{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+    .chip-link{padding:8px 12px;border-radius:999px;background:#fff;border:1px solid var(--line);font-size:13px;color:#6b5b49}
+    .layout{display:grid;grid-template-columns:1fr 320px;gap:16px}
+    .main-col{display:flex;flex-direction:column;gap:16px}
+    .panel{padding:16px}
+    .section-title{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+    .section-title h2,.section-title h3{margin:0;color:#8a5316}
+    .section-title p{margin:0;color:var(--muted);font-size:13px}
+    .theme-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .theme-card{background:#fcfbf8;border:1px solid var(--line);border-radius:16px;padding:14px}
+    .theme-card h3{margin:0 0 8px;color:#8a5316;font-size:17px}
+    .theme-card .desc{margin:0 0 12px;color:var(--muted);font-size:14px;line-height:1.7}
+    .word-cloud{display:flex;flex-wrap:wrap;gap:10px}
+    .word-chip{position:relative;display:inline-flex;align-items:center;justify-content:center;padding:10px 12px;border-radius:12px;background:#fff;border:1px solid #e7dccb;font-size:22px;font-weight:700;color:#8a5316;cursor:pointer;min-width:54px}
+    .word-chip:hover,.word-chip.active{background:var(--accent-soft);border-color:#d9ba8d}
+    .tooltip{position:fixed;z-index:1200;max-width:min(320px,calc(100vw - 24px));padding:12px 14px;border-radius:14px;background:#fffefc;border:1px solid var(--line);box-shadow:0 18px 34px rgba(72,51,21,.18);display:none}
+    .tooltip.show{display:block}
+    .tooltip .t-word{font-size:22px;font-weight:800;color:#8a5316;margin-bottom:4px}
+    .tooltip .t-pinyin{font-size:14px;font-weight:700;color:#b26b20;margin-bottom:5px}
+    .tooltip .t-english{font-size:15px;line-height:1.55;margin-bottom:4px}
+    .tooltip .t-note{font-size:13px;color:var(--muted);line-height:1.6}
+    .radical-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+    .radical-card{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fff}
+    .radical-head{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .radical-badge{width:44px;height:44px;border-radius:14px;background:var(--accent-soft);display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:800;color:#8a5316}
+    .radical-card h4{margin:0;font-size:17px;color:#8a5316}
+    .radical-card p{margin:0 0 8px;color:var(--muted);line-height:1.7;font-size:14px}
+    .mini-list{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:10px}
+    .mini-tag{background:#f7f3ec;border:1px solid var(--line);padding:6px 9px;border-radius:999px;font-size:13px;color:#6b5b49}
+    .mini-tag.interactive{cursor:pointer;user-select:none}
+    .mini-tag.interactive:hover,.mini-tag.interactive.active{background:var(--accent-soft);border-color:#d9ba8d;color:#8a5316}
+    .radical-quiz{margin-top:8px;padding:10px;border-radius:14px;background:var(--blue);border:1px solid var(--blue-line)}
+    .radical-quiz .prompt{font-size:14px;font-weight:700;margin-bottom:8px}
+    .option-row{display:flex;gap:8px;flex-wrap:wrap}
+    .option-btn{padding:8px 10px;border-radius:10px;border:1px solid #cfd9e6;background:#fff;cursor:pointer}
+    .quiz-feedback{display:none;margin-top:8px;padding:8px 10px;border-radius:10px;font-size:13px;line-height:1.6}
+    .quiz-feedback.show{display:block}
+    .quiz-feedback.ok{background:#eef8ef;border:1px solid #c7e4cc;color:#245f36}
+    .quiz-feedback.no{background:#fff1f1;border:1px solid #efc3c3;color:#8b2a2a}
+    .dictation-wrap{display:grid;grid-template-columns:1.1fr .9fr;gap:14px}
+    .dictation-card{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fcfbf8}
+    .dictation-card h3{margin:0 0 10px;color:#8a5316}
+    .prompt-box{padding:12px;border-radius:14px;background:#fff;border:1px solid var(--line);margin-bottom:10px}
+    .prompt-en{font-size:17px;font-weight:700;margin-bottom:4px}
+    .prompt-pinyin{font-size:15px;color:#b26b20;font-weight:700}
+    .dictation-input{margin-top:10px}
+    .dictation-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
+    .dictation-result{display:none;margin-top:10px;padding:10px 12px;border-radius:12px;font-size:14px;line-height:1.7}
+    .dictation-result.show{display:block}
+    .dictation-result.ok{background:#eef8ef;border:1px solid #c7e4cc;color:#245f36}
+    .dictation-result.no{background:#fff1f1;border:1px solid #efc3c3;color:#8b2a2a}
+    .answer-line{margin-top:8px;font-size:14px;color:#5d4b36}
+    .stroke-panel{border:1px solid var(--line);border-radius:16px;padding:14px;background:#fff}
+    .stroke-panel h3{margin:0 0 10px;color:#8a5316}
+    .stroke-note{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:10px}
+    .stroke-targets{display:flex;flex-wrap:wrap;gap:12px}
+    .stroke-box{width:110px}
+    .stroke-char{width:110px;height:110px;border:1px solid var(--line);border-radius:14px;background:#fffdf8}
+    .stroke-label{text-align:center;font-size:14px;margin-top:6px;color:#6b5b49}
+    .progress-row{display:flex;gap:10px;align-items:center;margin-top:10px;font-size:13px;color:var(--muted)}
+    .side{display:flex;flex-direction:column;gap:16px}
+    .side .panel{position:sticky;top:16px}
+    .review-word{font-size:34px;font-weight:800;color:#8a5316;margin-bottom:6px}
+    .review-pinyin{font-weight:700;color:#b26b20;margin-bottom:6px}
+    .review-english{line-height:1.6;margin-bottom:10px}
+    .hidden{display:none}
+    .small{font-size:13px;color:var(--muted);line-height:1.7}
+    .footer-note{font-size:13px;color:var(--muted);line-height:1.7}
+    @media (max-width: 980px){
+      .hero-grid,.layout,.dictation-wrap{grid-template-columns:1fr}
+      .side .panel{position:static}
+    }
+    @media (max-width: 760px){
+      .theme-grid,.radical-grid{grid-template-columns:1fr}
+      h1{font-size:26px}
+      .word-chip{font-size:20px}
+    }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <div class="topbar">
+      <a class="home-link" href="index.html">← Back to Home</a>
+      <div class="btn-row" aria-label="script toggle">
+        <button class="btn toggle active" id="btnTrad" type="button">繁體</button>
+        <button class="btn toggle" id="btnSimp" type="button">简体</button>
+      </div>
+    </div>
+
+    <section class="hero">
+      <span class="eyebrow">1W · Lesson 17 · Word Explorer</span>
+      <h1 id="heroTitle">蠶的故事｜詞彙網</h1>
+      <p class="lead">This page is here to help you remember and use the key words from <strong>蚕的故事</strong>. You can study the words by theme, notice helpful character parts, and practice dictation with stroke-order hints.</p>
+
+      <div class="hero-grid">
+        <div class="mini">
+          <h3>What you can do here</h3>
+          <ul>
+            <li>Study the words by <strong>theme group</strong>.</li>
+            <li>On a computer, <strong>hover</strong> on a word to see pinyin and English. On a phone or tablet, <strong>tap</strong> the word.</li>
+            <li>Learn how <strong>虫、木、竖心旁、提手旁</strong> can help you remember words.</li>
+            <li>Try the dictation section with <strong>English + pinyin</strong>, then click <strong>Hint</strong> for stroke animation.</li>
+          </ul>
+        </div>
+        <div class="mini">
+          <h3>Learning goal</h3>
+          <p>Try to connect the words to the story: family hardship, caring actions, feelings, and clothing/fashion words. The goal is not only to recognize the words, but also to use them in retelling and new sentences.</p>
+        </div>
+      </div>
+
+      <div class="section-nav">
+        <a class="chip-link" href="#themes">主题词网</a>
+        <a class="chip-link" href="#radicals">部件归类</a>
+        <a class="chip-link" href="#dictation">听写练习</a>
+      </div>
+    </section>
+
+    <div class="layout">
+      <section class="main-col">
+        <section class="panel" id="themes">
+          <div class="section-title">
+            <div>
+              <h2>Theme Word Groups</h2>
+              <p>Hover or tap a word to see pinyin and English.</p>
+            </div>
+          </div>
+          <div class="theme-grid" id="themeGrid"></div>
+        </section>
+
+        <section class="panel" id="radicals">
+          <div class="section-title">
+            <div>
+              <h2>部件归类与拓展</h2>
+              <p>Use character parts to build memory links.</p>
+            </div>
+          </div>
+          <div class="radical-grid" id="radicalGrid"></div>
+        </section>
+
+        <section class="panel" id="dictation">
+          <div class="section-title">
+            <div>
+              <h2>Dictation Practice</h2>
+              <p>See the English and pinyin, then type the word. Click Hint for stroke animation.</p>
+            </div>
+          </div>
+
+          <div class="dictation-wrap">
+            <div class="dictation-card">
+              <h3 id="dictationTitle">聽寫 1</h3>
+              <div class="prompt-box">
+                <div class="prompt-en" id="promptEnglish"></div>
+                <div class="prompt-pinyin" id="promptPinyin"></div>
+              </div>
+
+              <div class="dictation-input">
+                <label for="dictationInput">Type the Chinese word</label>
+                <input id="dictationInput" type="text" placeholder="Type the word here" />
+              </div>
+
+              <div class="dictation-actions">
+                <button class="btn primary" id="checkBtn" type="button">Check</button>
+                <button class="btn secondary" id="hintBtn" type="button">Hint</button>
+                <button class="btn secondary" id="nextBtn" type="button">Next</button>
+              </div>
+
+              <div class="dictation-result" id="dictationResult"></div>
+              <div class="progress-row">
+                <span id="progressText"></span>
+              </div>
+            </div>
+
+            <div class="stroke-panel">
+              <h3>Stroke Hint</h3>
+              <div class="stroke-note">When you click <strong>Hint</strong>, the target word appears below with stroke-order animation. The displayed form follows the current 繁體 / 简体 setting.</div>
+              <div class="stroke-targets" id="strokeTargets"></div>
+            </div>
+          </div>
+        </section>
+      </section>
+
+      <aside class="side">
+        <section class="panel">
+          <h3 style="margin:0 0 10px;color:#8a5316;">Quick Review</h3>
+          <div class="small">Use this box to quickly recycle words from the lesson.</div>
+          <div id="reviewBox" style="margin-top:12px;">
+            <div class="review-word" id="reviewWord"></div>
+            <div class="review-pinyin" id="reviewPinyin"></div>
+            <div class="review-english hidden" id="reviewEnglish"></div>
+          </div>
+          <div class="btn-row" style="margin-top:12px;">
+            <button class="btn primary" id="newCardBtn" type="button">New card</button>
+            <button class="btn secondary" id="revealBtn" type="button">Reveal</button>
+          </div>
+        </section>
+
+        <section class="panel">
+          <h3 style="margin:0 0 10px;color:#8a5316;">Retelling Tip</h3>
+          <div class="footer-note">Try building a sentence from one word in each group, for example: <br><strong>她們相依為命，所以她很懂事，也靠養蠶過日子。</strong><br><br>Or with simplified: <br><strong>她们相依为命，所以她很懂事，也靠养蚕过日子。</strong></div>
+        </section>
+      </aside>
+    </div>
+  </main>
+
+  <div id="tooltip" class="tooltip" aria-hidden="true"></div>
+
+  <script>
+    const WORDS = [
+      { trad:'蠶', simp:'蚕', pinyin:'cán', english:'silkworm', note:'Main animal in the story; it eats mulberry leaves and later spins silk.', theme:'family', inRadicals:['虫'] },
+      { trad:'窮苦', simp:'穷苦', pinyin:'qióngkǔ', english:'poor', note:'Describes a hard life with little money.', theme:'family' },
+      { trad:'相依為命', simp:'相依为命', pinyin:'xiāngyīwéimìng', english:'to depend on each other for survival', note:'A strong expression for family bonds and survival.', theme:'family' },
+      { trad:'孝敬', simp:'孝敬', pinyin:'xiàojìng', english:'filial piety; to respect an elder', note:'Often used for caring for parents or elders.', theme:'family' },
+      { trad:'養', simp:'养', pinyin:'yǎng', english:'to raise', note:'To raise silkworms, children, or animals.', theme:'family' },
+      { trad:'桑樹', simp:'桑树', pinyin:'sāngshù', english:'mulberry tree', note:'Silkworms eat mulberry leaves.', theme:'family', inRadicals:['木'] },
+      { trad:'餵', simp:'喂', pinyin:'wèi', english:'to feed', note:'Used when giving food to animals, babies, or small children.', theme:'family' },
+      { trad:'懂事', simp:'懂事', pinyin:'dǒngshì', english:'sensible; intelligent', note:'A common praise word for a child who understands responsibility.', theme:'family' },
+      { trad:'活兒', simp:'活儿', pinyin:'huór', english:'work; manual labor', note:'Often means chores or practical work.', theme:'family' },
+      { trad:'靠', simp:'靠', pinyin:'kào', english:'to rely on', note:'Very common in 靠…生活 / 靠…赚钱.', theme:'family' },
+      { trad:'院子', simp:'院子', pinyin:'yuànzi', english:'yard', note:'A common setting word in stories.', theme:'family' },
+
+      { trad:'喊', simp:'喊', pinyin:'hǎn', english:'to cry; to yell', note:'Louder than 说; to shout or call out.', theme:'actions' },
+      { trad:'許願', simp:'许愿', pinyin:'xǔyuàn', english:'to vow; to make a wish', note:'Common in prayers, birthdays, or emotional moments.', theme:'actions' },
+      { trad:'嫁', simp:'嫁', pinyin:'jià', english:'to marry (of a woman)', note:'Used specifically for a woman getting married.', theme:'actions' },
+      { trad:'點頭', simp:'点头', pinyin:'diǎntóu', english:'to nod', note:'Shows agreement, thanks, or understanding.', theme:'actions' },
+      { trad:'迷路', simp:'迷路', pinyin:'mílù', english:'to get lost; to lose one\'s way', note:'A very useful everyday phrase.', theme:'actions' },
+      { trad:'背', simp:'背', pinyin:'bēi', english:'to carry on the back', note:'This is first tone: bēi.', theme:'actions' },
+      { trad:'跟隨', simp:'跟随', pinyin:'gēnsuí', english:'to follow', note:'A slightly more formal word than 跟着.', theme:'actions' },
+      { trad:'剝', simp:'剥', pinyin:'bō', english:'to shell; to peel; to skin', note:'To remove an outside layer.', theme:'actions' },
+      { trad:'撫摸', simp:'抚摸', pinyin:'fǔmō', english:'to caress; to fondle', note:'A soft, caring touch.', theme:'actions', inRadicals:['扌'] },
+      { trad:'沾濕', simp:'沾湿', pinyin:'zhānshī', english:'to moisten; to soak', note:'To become a little wet from tears or water.', theme:'actions' },
+      { trad:'卷', simp:'卷', pinyin:'juǎn', english:'to roll up', note:'Can be used for paper, cloth, or sleeves.', theme:'actions' },
+      { trad:'吐絲', simp:'吐丝', pinyin:'tǔsī', english:'to spin silk', note:'One of the most important lesson words.', theme:'actions' },
+
+      { trad:'溫柔', simp:'温柔', pinyin:'wēnróu', english:'gentle and soft; tender', note:'Can describe voice, personality, or touch.', theme:'feelings' },
+      { trad:'深情', simp:'深情', pinyin:'shēnqíng', english:'deep feeling; with deep love', note:'Used for strong affection and emotional expression.', theme:'feelings' },
+      { trad:'悲哀', simp:'悲哀', pinyin:"bēi'āi", english:'sad; sorrow', note:'Stronger and more literary than 难过.', theme:'feelings' },
+      { trad:'流淚', simp:'流泪', pinyin:'liúlèi', english:'to cry; to shed tears', note:'Focuses on tears, not just sadness.', theme:'feelings' },
+      { trad:'後悔', simp:'后悔', pinyin:'hòuhuǐ', english:'to regret', note:'Very common in 早知道…, 我就…', theme:'feelings', inRadicals:['忄'] },
+      { trad:'像……似的', simp:'像……似的', pinyin:'xiàng … shìde', english:'like …; as if …', note:'A very useful comparison pattern in retelling.', theme:'feelings' },
+
+      { trad:'褲子', simp:'裤子', pinyin:'kùzi', english:'pants; trousers', note:'A high-frequency clothing word.', theme:'fashion' },
+      { trad:'布', simp:'布', pinyin:'bù', english:'cloth', note:'The material from which clothes are made.', theme:'fashion' },
+      { trad:'藍', simp:'蓝', pinyin:'lán', english:'blue', note:'A useful color word that often combines with 布 or 裤子.', theme:'fashion' },
+      { trad:'舊', simp:'旧', pinyin:'jiù', english:'old', note:'Describes old clothes, objects, or memories.', theme:'fashion' },
+      { trad:'號', simp:'号', pinyin:'hào', english:'number; size (of clothing)', note:'In clothing, it means size.', theme:'fashion' },
+      { trad:'流行', simp:'流行', pinyin:'liúxíng', english:'popular; fashionable', note:'Can describe clothes, songs, words, or styles.', theme:'fashion' },
+      { trad:'硬', simp:'硬', pinyin:'yìng', english:'stiff; rough; hard', note:'Describes physical hardness or rough feeling.', theme:'fashion' },
+      { trad:'時裝', simp:'时装', pinyin:'shízhuāng', english:'(the latest) fashion', note:'A more fashionable and modern clothing word.', theme:'fashion' }
+    ];
+
+    const EXTRA_RADICAL_WORDS = [
+      { trad:'蛾', simp:'蛾', pinyin:'é', english:'moth', note:'A moth; useful for connecting insect words in the 虫 family.' },
+      { trad:'蝴蝶', simp:'蝴蝶', pinyin:'húdié', english:'butterfly', note:'A butterfly; another common insect word with 虫.' },
+      { trad:'蚊子', simp:'蚊子', pinyin:'wénzi', english:'mosquito', note:'A mosquito; another useful 虫-family word.' },
+      { trad:'林', simp:'林', pinyin:'lín', english:'woods; forest', note:'Two 木 together help show the idea of many trees.' },
+      { trad:'樹葉', simp:'树叶', pinyin:'shùyè', english:'tree leaves', note:'A helpful 木-family nature word.' },
+      { trad:'木頭', simp:'木头', pinyin:'mùtou', english:'wood; log', note:'A very direct 木-family word.' },
+      { trad:'情', simp:'情', pinyin:'qíng', english:'feeling; emotion', note:'A common feeling word with the 竖心旁 pattern.' },
+      { trad:'怕', simp:'怕', pinyin:'pà', english:'to fear; to be afraid', note:'Another feeling-related word with 竖心旁.' },
+      { trad:'快樂', simp:'快乐', pinyin:'kuàilè', english:'happy; joyful', note:'A common emotion word that helps connect 竖心旁 to feelings.' },
+      { trad:'打', simp:'打', pinyin:'dǎ', english:'to hit; to do', note:'A common hand-action word with 提手旁.' },
+      { trad:'抱', simp:'抱', pinyin:'bào', english:'to hold; to hug', note:'A useful hand-action word with 提手旁.' },
+      { trad:'推', simp:'推', pinyin:'tuī', english:'to push', note:'A common action word with 提手旁.' }
+    ];
+
+    const THEMES = [
+      { key:'family', titleTrad:'家庭與生活', titleSimp:'家庭与生活', desc:'Who are the people in the story, and how do they live?', words:['蠶','窮苦','相依為命','孝敬','養','桑樹','餵','懂事','活兒','靠','院子'] },
+      { key:'actions', titleTrad:'動作與情節', titleSimp:'动作与情节', desc:'What do the characters do in the story?', words:['喊','許願','嫁','點頭','迷路','背','跟隨','剝','撫摸','沾濕','卷','吐絲'] },
+      { key:'feelings', titleTrad:'情感與關係', titleSimp:'情感与关系', desc:'How do the characters feel, and how are they connected?', words:['溫柔','深情','悲哀','流淚','後悔','像……似的'] },
+      { key:'fashion', titleTrad:'衣物與時尚', titleSimp:'衣物与时尚', desc:'Clothing and material words that appear later in the lesson.', words:['褲子','布','藍','舊','號','流行','硬','時裝'] }
+    ];
+
+    const RADICALS = [
+      {
+        key:'虫',
+        badge:'虫',
+        title:'虫部件 family',
+        desc:'虫 often appears in words related to insects and tiny crawling creatures. In this lesson, 蚕 / 蠶 belongs here.',
+        lessonWords:['蠶'],
+        extendTrad:['蛾','蝴蝶','蚊子'],
+        extendSimp:['蛾','蝴蝶','蚊子'],
+        quiz:{
+          prompt:'Which lesson word belongs to the 虫 family?',
+          options:['蠶','桑樹','撫摸'],
+          answer:'蠶',
+          feedback:'對。蠶 / 蚕 is an insect, so 虫 helps us remember its meaning.'
+        }
+      },
+      {
+        key:'木',
+        badge:'木',
+        title:'木部件 family',
+        desc:'木 often appears in tree, wood, plant, and nature words. 桑樹 / 桑树 is a clear example.',
+        lessonWords:['桑樹'],
+        extendTrad:['林','樹葉','木頭'],
+        extendSimp:['林','树叶','木头'],
+        quiz:{
+          prompt:'Which word most clearly shows the 木 idea of tree/wood?',
+          options:['桑樹','悲哀','許願'],
+          answer:'桑樹',
+          feedback:'對。桑樹 / 桑树 is a tree word, so 木 is a strong memory clue.'
+        }
+      },
+      {
+        key:'忄',
+        badge:'忄',
+        title:'竖心旁 family',
+        desc:'竖心旁 often appears in words about feelings, thoughts, and inner states. In this lesson, 悔 in 後悔 / 后悔 fits this pattern.',
+        lessonWords:['後悔'],
+        extendTrad:['情','怕','快樂'],
+        extendSimp:['情','怕','快乐'],
+        quiz:{
+          prompt:'Which word is easiest to connect with emotion and the 竖心旁 idea?',
+          options:['後悔','布','卷'],
+          answer:'後悔',
+          feedback:'對。後悔 / 后悔 is about regret, an inner feeling.'
+        }
+      },
+      {
+        key:'扌',
+        badge:'扌',
+        title:'提手旁 family',
+        desc:'提手旁 often appears in action words done with the hand. 撫摸 / 抚摸 is a good example.',
+        lessonWords:['撫摸'],
+        extendTrad:['打','抱','推'],
+        extendSimp:['打','抱','推'],
+        quiz:{
+          prompt:'Which lesson word is most clearly a hand action?',
+          options:['撫摸','流行','迷路'],
+          answer:'撫摸',
+          feedback:'對。撫摸 / 抚摸 is a hand action, so 提手旁 helps memory.'
+        }
+      }
+    ];
+
+    const DICTATION_KEYS = ['窮苦','相依為命','孝敬','懂事','靠','喊','許願','嫁','溫柔','迷路','悲哀','流淚','院子','後悔','褲子','流行','時裝'];
+
+    let scriptMode = 'trad';
+    let activeTooltipTarget = null;
+    let reviewIndex = 0;
+    let dictationIndex = 0;
+    let currentHintWord = null;
+    const reviewPool = WORDS.slice();
+
+    const btnTrad = document.getElementById('btnTrad');
+    const btnSimp = document.getElementById('btnSimp');
+    const heroTitle = document.getElementById('heroTitle');
+    const themeGrid = document.getElementById('themeGrid');
+    const tooltip = document.getElementById('tooltip');
+    const radicalGrid = document.getElementById('radicalGrid');
+    const reviewWord = document.getElementById('reviewWord');
+    const reviewPinyin = document.getElementById('reviewPinyin');
+    const reviewEnglish = document.getElementById('reviewEnglish');
+    const newCardBtn = document.getElementById('newCardBtn');
+    const revealBtn = document.getElementById('revealBtn');
+
+    const dictationTitle = document.getElementById('dictationTitle');
+    const promptEnglish = document.getElementById('promptEnglish');
+    const promptPinyin = document.getElementById('promptPinyin');
+    const dictationInput = document.getElementById('dictationInput');
+    const dictationResult = document.getElementById('dictationResult');
+    const progressText = document.getElementById('progressText');
+    const strokeTargets = document.getElementById('strokeTargets');
+    const checkBtn = document.getElementById('checkBtn');
+    const hintBtn = document.getElementById('hintBtn');
+    const nextBtn = document.getElementById('nextBtn');
+
+    function getDisplay(item){
+      return scriptMode === 'trad' ? item.trad : item.simp;
+    }
+
+    function titleText(trad, simp){
+      return scriptMode === 'trad' ? trad : simp;
+    }
+
+    function findWord(displayForm){
+      return [...WORDS, ...EXTRA_RADICAL_WORDS].find(w => w.trad === displayForm || w.simp === displayForm);
+    }
+
+    function getDictationItems(){
+      return DICTATION_KEYS.map(key => findWord(key));
+    }
+
+    function isTouchLike(){
+      return window.matchMedia('(hover: none), (pointer: coarse)').matches || window.innerWidth <= 768;
+    }
+
+    function showTooltip(item, targetEl){
+      tooltip.innerHTML = `
+        <div class="t-word">${getDisplay(item)}</div>
+        <div class="t-pinyin">${item.pinyin}</div>
+        <div class="t-english">${item.english}</div>
+        <div class="t-note">${item.note}</div>
+      `;
+      tooltip.classList.add('show');
+      tooltip.setAttribute('aria-hidden','false');
+
+      const rect = targetEl.getBoundingClientRect();
+      const tipRect = tooltip.getBoundingClientRect();
+      let left = rect.left + rect.width / 2 - tipRect.width / 2;
+      left = Math.max(12, Math.min(left, window.innerWidth - tipRect.width - 12));
+      let top = rect.bottom + 10;
+      if (top + tipRect.height > window.innerHeight - 12) {
+        top = rect.top - tipRect.height - 10;
+      }
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
+    }
+
+    function hideTooltip(){
+      tooltip.classList.remove('show');
+      tooltip.setAttribute('aria-hidden','true');
+      document.querySelectorAll('.word-chip.active, .mini-tag.active').forEach(el => el.classList.remove('active'));
+      activeTooltipTarget = null;
+    }
+
+    function buildWordChip(item){
+      return `<button class="word-chip tooltip-target" type="button"
+        data-tooltip-trad="${item.trad}" data-tooltip-simp="${item.simp}">${getDisplay(item)}</button>`;
+    }
+
+    function buildMiniTag(item){
+      return `<button class="mini-tag interactive tooltip-target" type="button"
+        data-tooltip-trad="${item.trad}" data-tooltip-simp="${item.simp}">${getDisplay(item)}</button>`;
+    }
+
+    function bindTooltipTargets(){
+      document.querySelectorAll('.tooltip-target').forEach(target => {
+        const item = findWord(target.dataset.tooltipTrad || target.dataset.tooltipSimp);
+        if (!item) return;
+
+        target.addEventListener('mouseenter', () => {
+          if (!isTouchLike()) {
+            document.querySelectorAll('.word-chip.active, .mini-tag.active').forEach(el => el.classList.remove('active'));
+            target.classList.add('active');
+            showTooltip(item, target);
+          }
+        });
+
+        target.addEventListener('mouseleave', () => {
+          if (!isTouchLike() && activeTooltipTarget !== target) hideTooltip();
+        });
+
+        target.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const sameTarget = activeTooltipTarget === target;
+          hideTooltip();
+          if (!sameTarget) {
+            target.classList.add('active');
+            activeTooltipTarget = target;
+            showTooltip(item, target);
+          }
+        });
+      });
+    }
+
+    function renderThemes(){
+      heroTitle.textContent = titleText('蠶的故事｜詞彙網', '蚕的故事｜词汇网');
+      themeGrid.innerHTML = THEMES.map(group => {
+        const chips = group.words
+          .map(w => findWord(w))
+          .filter(Boolean)
+          .map(buildWordChip)
+          .join('');
+        return `
+          <div class="theme-card">
+            <h3>${titleText(group.titleTrad, group.titleSimp)}</h3>
+            <p class="desc">${group.desc}</p>
+            <div class="word-cloud">${chips}</div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function renderRadicals(){
+      radicalGrid.innerHTML = RADICALS.map((r, idx) => `
+        <div class="radical-card">
+          <div class="radical-head">
+            <div class="radical-badge">${r.badge}</div>
+            <div>
+              <h4>${r.title}</h4>
+            </div>
+          </div>
+          <p>${r.desc}</p>
+          <p><strong>${titleText('本課詞', '本课词')}：</strong></p>
+          <div class="mini-list">
+            ${r.lessonWords.map(w => {
+              const item = findWord(w);
+              return item ? buildMiniTag(item) : '';
+            }).join('')}
+          </div>
+          <p><strong>Extension:</strong></p>
+          <div class="mini-list">
+            ${(scriptMode === 'trad' ? r.extendTrad : r.extendSimp).map(x => {
+              const item = findWord(x);
+              return item ? buildMiniTag(item) : `<span class="mini-tag">${x}</span>`;
+            }).join('')}
+          </div>
+          <div class="radical-quiz">
+            <div class="prompt">${r.quiz.prompt}</div>
+            <div class="option-row">
+              ${r.quiz.options.map(opt => {
+                const item = findWord(opt);
+                const display = item ? getDisplay(item) : opt;
+                const tradVal = item ? item.trad : opt;
+                return `<button class="option-btn" type="button" data-radical-idx="${idx}" data-answer="${tradVal}">${display}</button>`;
+              }).join('')}
+            </div>
+            <div class="quiz-feedback" id="radical-feedback-${idx}"></div>
+          </div>
+        </div>
+      `).join('');
+
+      document.querySelectorAll('[data-radical-idx]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const idx = Number(btn.dataset.radicalIdx);
+          const config = RADICALS[idx];
+          const box = document.getElementById(`radical-feedback-${idx}`);
+          if (btn.dataset.answer === config.quiz.answer) {
+            box.className = 'quiz-feedback show ok';
+            box.textContent = config.quiz.feedback;
+          } else {
+            box.className = 'quiz-feedback show no';
+            box.textContent = titleText('再想想。這個部件和它的意思連得最緊的是：', '再想想。这个部件和它的意思连得最紧的是：') + ' ' + titleText(config.quiz.answer, config.quiz.answer);
+          }
+        });
+      });
+    }
+
+    function shuffle(arr){
+      return arr.map(v => [Math.random(), v]).sort((a,b) => a[0] - b[0]).map(x => x[1]);
+    }
+
+    function renderReviewCard(item){
+      reviewWord.textContent = getDisplay(item);
+      reviewPinyin.textContent = item.pinyin;
+      reviewEnglish.textContent = item.english;
+      reviewEnglish.classList.add('hidden');
+    }
+
+    function newReviewCard(){
+      reviewIndex = (reviewIndex + 1) % reviewPool.length;
+      renderReviewCard(reviewPool[reviewIndex]);
+    }
+
+    function normalizeAnswer(value){
+      return (value || '').replace(/\s+/g, '').trim();
+    }
+
+    function buildAcceptedForms(item){
+      const forms = [item.trad, item.simp];
+      if (item.trad === '相依為命') forms.push('相依为命');
+      if (item.trad === '窮苦') forms.push('穷苦');
+      if (item.trad === '許願') forms.push('许愿');
+      if (item.trad === '溫柔') forms.push('温柔');
+      if (item.trad === '流淚') forms.push('流泪');
+      if (item.trad === '後悔') forms.push('后悔');
+      if (item.trad === '褲子') forms.push('裤子');
+      if (item.trad === '時裝') forms.push('时装');
+      return [...new Set(forms.map(normalizeAnswer))];
+    }
+
+    function currentDictationItem(){
+      return getDictationItems()[dictationIndex];
+    }
+
+    function renderDictation(){
+      const item = currentDictationItem();
+      if (!item) return;
+      dictationTitle.textContent = titleText(`聽寫 ${dictationIndex + 1}`, `听写 ${dictationIndex + 1}`);
+      promptEnglish.textContent = item.english;
+      promptPinyin.textContent = item.pinyin;
+      progressText.textContent = `${dictationIndex + 1} / ${getDictationItems().length}`;
+      dictationInput.value = '';
+      dictationResult.className = 'dictation-result';
+      dictationResult.textContent = '';
+      strokeTargets.innerHTML = '';
+      currentHintWord = item;
+    }
+
+    function animateHintWord(item){
+      strokeTargets.innerHTML = '';
+      const displayWord = getDisplay(item);
+      const chars = [...displayWord].filter(ch => /[\u3400-\u9fff]/.test(ch));
+      chars.forEach((char, index) => {
+        const wrapper = document.createElement('div');
+        wrapper.className = 'stroke-box';
+        wrapper.innerHTML = `<div class="stroke-char" id="stroke-char-${index}"></div><div class="stroke-label">${char}</div>`;
+        strokeTargets.appendChild(wrapper);
+        const targetId = `stroke-char-${index}`;
+        const writer = HanziWriter.create(targetId, char, {
+          width: 110,
+          height: 110,
+          padding: 8,
+          strokeColor: '#333',
+          radicalColor: '#a9671f',
+          delayBetweenStrokes: 240,
+          delayBetweenLoops: 900
+        });
+        setTimeout(() => {
+          writer.animateCharacter({ strokeAnimationSpeed: 1.1, delayBetweenStrokes: 260 });
+        }, 120 * index);
+      });
+    }
+
+    function checkDictation(){
+      const item = currentDictationItem();
+      const answer = normalizeAnswer(dictationInput.value);
+      const accepted = buildAcceptedForms(item);
+      if (!answer) {
+        dictationResult.className = 'dictation-result show no';
+        dictationResult.textContent = titleText('先輸入答案。', '先输入答案。');
+        return;
+      }
+      if (accepted.includes(answer)) {
+        dictationResult.className = 'dictation-result show ok';
+        dictationResult.innerHTML = `${titleText('答對了！', '答对了！')}<div class="answer-line">${titleText('標準寫法', '标准写法')}：${getDisplay(item)}</div>`;
+      } else {
+        dictationResult.className = 'dictation-result show no';
+        dictationResult.innerHTML = `${titleText('還差一點。', '还差一点。')}<div class="answer-line">${titleText('可以接受的寫法', '可以接受的写法')}：${accepted.join(' / ')}</div>`;
+      }
+    }
+
+    function nextDictation(){
+      dictationIndex = (dictationIndex + 1) % getDictationItems().length;
+      renderDictation();
+    }
+
+    btnTrad.addEventListener('click', () => {
+      scriptMode = 'trad';
+      btnTrad.classList.add('active');
+      btnSimp.classList.remove('active');
+      renderThemes();
+      renderRadicals();
+      bindTooltipTargets();
+      renderReviewCard(reviewPool[reviewIndex]);
+      renderDictation();
+      hideTooltip();
+    });
+
+    btnSimp.addEventListener('click', () => {
+      scriptMode = 'simp';
+      btnSimp.classList.add('active');
+      btnTrad.classList.remove('active');
+      renderThemes();
+      renderRadicals();
+      bindTooltipTargets();
+      renderReviewCard(reviewPool[reviewIndex]);
+      renderDictation();
+      hideTooltip();
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.tooltip-target') && !e.target.closest('.tooltip')) {
+        hideTooltip();
+      }
+    });
+
+    newCardBtn.addEventListener('click', newReviewCard);
+    revealBtn.addEventListener('click', () => reviewEnglish.classList.remove('hidden'));
+    checkBtn.addEventListener('click', checkDictation);
+    hintBtn.addEventListener('click', () => {
+      if (currentHintWord) animateHintWord(currentHintWord);
+    });
+    nextBtn.addEventListener('click', nextDictation);
+
+    renderThemes();
+    renderRadicals();
+    bindTooltipTargets();
+    renderReviewCard(reviewPool[0]);
+    renderDictation();
+  </script>
+</body>
+</html>
